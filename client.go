@@ -6,10 +6,15 @@ import (
 	"net"
 )
 
-// PrintBody sends a generic GET request to the server at url and returns prints
+// PrintBody sends a generic GET request to the server at url and prints
 // the body of the response to std Out
 func PrintBody(url string) error {
-	conn, err := net.Dial("tcp", url)
+	u, err := parseURL(url)
+	if err != nil {
+		return err
+	}
+
+	conn, err := net.Dial("tcp", "["+u.hostname+"]:"+u.port)
 	if err != nil {
 		return err
 	}
